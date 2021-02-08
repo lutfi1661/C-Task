@@ -10,10 +10,13 @@ void DisplayAbout();
 void DisplayHelp();
 void PlayerVSComputer();
 void PlayerVSPlayer();
+void Grid3();
 void Grid5();
 void Grid7();
+void PlayGame3PVP();
 void PlayGame5PVP();
 void PlayGame7PVP();
+int CheckWin3();
 int CheckWin5();
 int CheckWin7();
 
@@ -178,7 +181,7 @@ void PlayerVSPlayer(){
 	
 	//Algoritma Permainan Dimulai
 	if(GridOption == 1){
-		
+		PlayGame3PVP();
 	}else if(GridOption == 2){
 		PlayGame5PVP();
 	}else if(GridOption == 3){
@@ -191,6 +194,53 @@ void PlayerVSPlayer(){
 /*======================================================
 		MODUL-MODUL UNTUK SAAT PERMAINAN DIMULAI		
 ========================================================*/
+//Modul untuk Program Player VS Player 3x3 saat dimulai
+void PlayGame3PVP(){
+	int column, row, player=1, Done=-1;
+	char mark;
+	
+	do {
+		system("cls");
+		Grid3();
+		player = (player % 2) ? 1 : 2;
+		
+		if (player==1){
+			printf(" Player %d [%s], Masukkan Angka (Baris, Kolom) tanpa Tanda Kurung :  ", player, Player1.Name);
+		}
+		else if (player==2){
+			printf(" Player %d [%s], Masukkan Angka (Baris, Kolom) tanpa Tanda Kurung :  ", player, Player2.Name);
+		}
+		
+        scanf("%d,%d", &row, &column);
+        mark = (player == 1) ? 'X' : 'O';
+        
+                
+        if((Symbol[row-1][column-1] != 'X') && (Symbol[row-1][column-1] != 'O')){
+        	if((row > 0) && (row < 4) && (column > 0) && (column < 4)){
+        		Symbol[row-1][column-1] = mark;
+			}
+		}
+		else {
+			printf("Masukan tidak valid, Silahkan coba lagi.");
+
+            player--;
+            getch();
+		}
+		Done=CheckWin3();
+		
+		player++;
+	}while (Done==-1);
+	
+	Grid3();
+	
+	if (Done==1){
+		printf("\nPemenangnya adalah Player %d\n", --player);
+	}
+	else printf("Game Seri\n");
+	getch();
+}
+
+
 //Modul untuk Program Player VS Player 5x5 saat dimulai
 void PlayGame5PVP(){
 	int column, row, player = 1, Done = -1;
@@ -284,6 +334,32 @@ void PlayGame7PVP(){
 /*=============================================================
 		MODUL-MODUL UNTUK TAMPILAN KISI/PAPAN PERMAINAN		   
 ===============================================================*/
+//Modul untuk Tampilan Kisi 3x3
+void Grid3(){
+	system("cls");
+	
+	int i;
+	
+	puts(" ===================================");
+	puts("          TIC TAC TOE 3X3           ");
+	puts(" ===================================");
+	
+	printf("Player 1 (X) \t\t Player 2 (O)\n");
+	printf("%s \t\t\t %s\n\n", Player1.Name, Player2.Name);
+	
+	printf("    ");
+	for(i = 1; i <= 3; i++){
+		printf("  %d   ", i);
+	}
+	printf("\n");
+	puts("    _____ _____ _____  ");
+	for(i = 0; i < 3; i++){
+		printf("   |     |     |     |\n");
+		printf("%d  |  %c  |  %c  |  %c  |\n", i+1, Symbol[i][0], Symbol[i][1], Symbol[i][2]);
+		printf("   |_____|_____|_____|\n");
+	}
+}
+
 //Modul untuk Tampilan Kisi 5x5
 void Grid5(){
 	system("cls");
@@ -345,6 +421,55 @@ void Grid7(){
 	0, maka game berakhir dengan kedua pemain seri; atau
 	-1, maka permainan masih berlanjut. 
 ==========================================================*/
+//Modul untuk Memeriksa Kemenangan pad Kisi 3x3
+int CheckWin3(){
+	int i=0, j=0, seri=0;
+	
+	//Kondisi Menang
+	/*Untuk Horizontal*/
+	for (i=0; i<3; i++){
+		if ( (Symbol[i][j] == Symbol[i][j+1]) && (Symbol[i][j+1]==Symbol[i][j+2]) ){
+			if ((Symbol[i][j]!=' ') && (Symbol[i][j+1]!=' ') && (Symbol[i][j+2]!=' ')){
+				return 1;
+			}
+		}
+	}	
+	/*Untuk Vertikal*/
+	for (i=0; i<3; i++){
+		if ( (Symbol[j][i] == Symbol[j+1][i]) && (Symbol[j+1][i] == Symbol[j+2][i]) ){
+			if ((Symbol[i][j]!=' ')&&(Symbol[j+1][i]!=' ')&&(Symbol[j+2][i]!=' ')){
+				return 1;
+			}
+		}
+	}	
+	/*Untuk Diagonal*/
+	i=0;
+	j=0;
+	if ((Symbol[j][i]==Symbol[j+1][i+1])&&(Symbol[j+1][i+1]==Symbol[j+2][i+2])){
+		if (Symbol[j][i]!=' '){
+			return 1;
+		}
+	}
+	else if ((Symbol[j][i+2]==Symbol[j+1][i+1])&&(Symbol[j+1][i+1]==Symbol[j+2][i])){
+		if (Symbol[j+1][i+1]!=' '){
+			return 1;
+		}
+	}	
+	
+	//Kondisi Seri
+	for (i=0; i<3; i++){
+		for (j=0; j<3; j++){
+			if ((Symbol[i][j]=='X') || (Symbol[i][j]=='O')){
+				seri++;
+			}
+		}
+	}
+	if (seri==9){
+		return 0;
+	}
+	else return -1;
+}
+
 //Modul untuk Memeriksa Kemenangan pada Kisi 5x5
 int CheckWin5(){
 	int i, j;
