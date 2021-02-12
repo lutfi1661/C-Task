@@ -604,11 +604,13 @@ void DisplayAbout(){
 	
 	FILE * FTentang;
 	
-	FTentang = fopen("tentang.txt","r");
-	
-	while(!feof(FTentang)){
-		fgets(teks, 150, FTentang);
-		puts(teks);
+	if((FTentang = fopen("tentang.txt","r")) == NULL){
+        printf("Error: File tidak ada!");
+    }else{
+    	while(!feof(FTentang)){
+			fgets(teks, 150, FTentang);
+			puts(teks);
+		}
 	}
 	
 	fclose(FTentang);
@@ -646,9 +648,13 @@ void DisplayHelp(){
 	
 	FBantuan = fopen("bantuan.txt","r");
 	
-	while(!feof(FBantuan)){
-		fgets(teks, 150, FBantuan);
-		puts(teks);
+	if((FBantuan = fopen("bantuan.txt","r")) == NULL){
+        printf("Error: File tidak ada!");
+    }else{
+    	while(!feof(FBantuan)){
+			fgets(teks, 150, FBantuan);
+			puts(teks);
+		}
 	}
 	
 	fclose(FBantuan);
