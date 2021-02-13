@@ -35,7 +35,10 @@ char Symbol[8][8] = {
 
 typedef struct{
 	char Name[20];
-	int Score;
+	int InitialScore;
+	int ActionCount;
+	float AverageTime;
+	int Highscore;
 }Player;					
 
 Player Player1, Player2, PlayerComputer;
