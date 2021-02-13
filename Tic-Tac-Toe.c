@@ -48,7 +48,7 @@ int main(){
 	puts("Selamat Datang di Permainan Tic Tac Toe");
 	do{
 		puts("Menu :");
-		puts("[1] Main");
+		puts("[1] Mulai");
 		puts("[2] Tentang");
 		puts("[3] Bantuan");
 		puts("[4] Keluar");
@@ -78,7 +78,7 @@ int main(){
 void DisplayPlayerMenu(){
 	system("cls");
 	do{
-		puts("Jumlah Player");
+		puts("Mode Permainan");
 		puts("[1] 1 Player");
 		puts("[2] 2 Player");
 		printf("Masukkan pilihan : ");
@@ -119,7 +119,7 @@ int DisplayGridMenu(){
 	system("cls");
 	
 	do{
-		puts("Kisi :");
+		puts("Kisi");
 		puts("[1] 3x3");
 		puts("[2] 5x5");
 		puts("[3] 7x7");
