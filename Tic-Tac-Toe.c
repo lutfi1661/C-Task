@@ -212,26 +212,46 @@ void PlayerVSPlayer(){
 void PlayGame3PVP(){
 	int column, row, player=1, Done=-1;
 	char mark;
+	int *ch, remain_time;
 	
 	do {
 		system("cls");
 		Grid3();
 		player = (player % 2) ? 1 : 2;
 		
-		if (player==1){
-			printf(" Player %d [%s], Masukkan Angka (Baris, Kolom) tanpa Tanda Kurung :  ", player, Player1.Name);
+		if(player == 1){
+        	printf(" Giliran Player %d [%s] \n", player, Player1.Name);
+		}else{
+			printf(" Giliran Player %d [%s] \n", player, Player2.Name);
 		}
-		else if (player==2){
-			printf(" Player %d [%s], Masukkan Angka (Baris, Kolom) tanpa Tanda Kurung :  ", player, Player2.Name);
-		}
+		printf(" NOTE : Masukan hanya angka tanpa koma dan tanda kurung\n");
 		
-        scanf("%d,%d", &row, &column);
+		//Inputan dari Pemain dengan Timer
+		if ((ch = Timer(10)) != 0){
+        	row = ch[0]-48;
+			column = ch[1]-48;
+			remain_time = ch[2];
+        }
+	    else{
+	        printf("Waktu Habis");
+			player++;
+			continue;
+	    }
+		
         mark = (player == 1) ? 'X' : 'O';
         
-                
         if((Symbol[row-1][column-1] != 'X') && (Symbol[row-1][column-1] != 'O')){
         	if((row > 0) && (row < 4) && (column > 0) && (column < 4)){
         		Symbol[row-1][column-1] = mark;
+				if(player == 1){
+        			Player1.InitialScore--;
+        			Player1.ActionCount++;
+        			Player1.AverageTime += remain_time;
+				}else{
+					Player2.InitialScore--;
+					Player2.ActionCount++;
+        			Player2.AverageTime += remain_time;
+				}
 			}
 		}
 		else {
@@ -247,11 +267,26 @@ void PlayGame3PVP(){
 	
 	Grid3();
 	
-	if (Done==1){
-		printf("\nPemenangnya adalah Player %d\n", --player);
+	if(Done == 1){
+		printf("Player %d Menang\n", --player);
+		if(player == 1){
+			Player1.Highscore = Score(Player1.InitialScore, Player1.ActionCount, Player1.AverageTime);
+			printf("Highscore : %d", Player1.Highscore);
+			
+			SaveHighscore(Player1.Highscore, player, Player1.ActionCount, Player1.AverageTime);
+		}else{
+			Player2.Highscore = Score(Player2.InitialScore, Player2.ActionCount, Player2.AverageTime);
+			printf("Highscore : %d", Player2.Highscore);
+			
+			SaveHighscore(Player1.Highscore, player, Player1.ActionCount, Player1.AverageTime);
+		}
 	}
-	else printf("Game Seri\n");
+	else{
+		printf("Game Seri\n");
+	}
+	
 	getch();
+	exit(0);
 }
 
 //Modul untuk Program Player VS Player 5x5 saat dimulai
