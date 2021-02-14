@@ -1,11 +1,10 @@
 #include <stdio.h>
-#include <math.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 
 //Deklarasi Modular
 void DisplayPlayerMenu();
+void DisplayHighscore();
 void DisplayAbout();
 void DisplayHelp();
 void PlayerVSComputer();
@@ -19,18 +18,20 @@ void PlayGame7PVP();
 int CheckWin3();
 int CheckWin5();
 int CheckWin7();
+int Score(int InitialScore, int ActionCount, float AverageTime);
+void SaveHighscore(int Highscore, int player, int ActionCount, float AverageTime);
+int *Timer(unsigned int sec);
 
 //Variabel Global
 int PlayerOption, LevelOption, GridOption;
-char Symbol[8][8] = {
-					 	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-					 	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-					 	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-					 	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-					 	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-					 	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-					 	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-					 	{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+char Symbol[7][7] = {
+					 	{' ', ' ', ' ', ' ', ' ', ' ', ' '},
+					 	{' ', ' ', ' ', ' ', ' ', ' ', ' '},
+					 	{' ', ' ', ' ', ' ', ' ', ' ', ' '},
+					 	{' ', ' ', ' ', ' ', ' ', ' ', ' '},
+					 	{' ', ' ', ' ', ' ', ' ', ' ', ' '},
+					 	{' ', ' ', ' ', ' ', ' ', ' ', ' '},
+					 	{' ', ' ', ' ', ' ', ' ', ' ', ' '},
 					};
 
 typedef struct{
@@ -50,29 +51,38 @@ int main(){
 	
 	puts("Selamat Datang di Permainan Tic Tac Toe");
 	do{
-		puts("Menu :");
+		puts("Menu");
 		puts("[1] Mulai");
-		puts("[2] Tentang");
-		puts("[3] Bantuan");
-		puts("[4] Keluar");
+		puts("[2] Riwayat Skor");
+		puts("[3] Tentang");
+		puts("[4] Bantuan");
+		puts("[5] Keluar");
 		printf("Masukkan pilihan : ");
 		scanf("%d", &MainOption);
 		
-		if(MainOption == 1){
-			DisplayPlayerMenu();
-		}else if(MainOption == 2){
-			DisplayAbout();
-		}else if(MainOption == 3){
-			DisplayHelp();
-		}else if(MainOption == 4){
-			system("cls");
-			printf("Terima Kasih");
-			exit(0);
-		}else{
-			system("cls");
-			puts("Maaf, masukan Anda tidak valid. Silahkan coba lagi");
+		switch(MainOption){
+			case 1:
+				DisplayPlayerMenu();
+				break;
+			case 2:
+				DisplayHighscore();
+				break;
+			case 3:
+				DisplayAbout();
+				break;
+			case 4:
+				DisplayHelp();
+				break;
+			case 5:
+				system("cls");
+				printf("Terima Kasih");
+				exit(0);
+			default:
+				system("cls");
+				puts("Maaf, masukan Anda tidak valid. Silahkan coba lagi");
+				break;
 		}
-	}while((MainOption != 5));
+	}while((MainOption < 1) || (MainOption > 5));
 	
 	return 0;
 }
@@ -184,13 +194,14 @@ void PlayerVSPlayer(){
 	
 	//Algoritma Permainan Dimulai
 	if(GridOption == 1){
+		Player1.InitialScore = Player2.InitialScore = 9;
 		PlayGame3PVP();
 	}else if(GridOption == 2){
+		Player1.InitialScore = Player2.InitialScore = 25;
 		PlayGame5PVP();
-	}else if(GridOption == 3){
-		PlayGame7PVP();
 	}else{
-		
+		Player1.InitialScore = Player2.InitialScore = 49;
+		PlayGame7PVP();
 	}
 }
 
@@ -243,11 +254,11 @@ void PlayGame3PVP(){
 	getch();
 }
 
-
 //Modul untuk Program Player VS Player 5x5 saat dimulai
 void PlayGame5PVP(){
 	int column, row, player = 1, Done = -1;
 	char mark;
+	int *ch, remain_time;
 	
 	do{
 		system("cls");
@@ -255,17 +266,38 @@ void PlayGame5PVP(){
 		player = (player % 2) ? 1 : 2;
 		
         if(player == 1){
-        	printf(" Player %d [%s], Masukkan Angka (Baris, Kolom) tanpa Tanda Kurung :  ", player, Player1.Name);
+        	printf(" Giliran Player %d [%s] \n", player, Player1.Name);
 		}else{
-			printf(" Player %d [%s], Masukkan Angka (Baris, Kolom) tanpa Tanda Kurung :  ", player, Player2.Name);
+			printf(" Giliran Player %d [%s] \n", player, Player2.Name);
 		}
+		printf(" NOTE : Masukan hanya angka tanpa koma dan tanda kurung\n");
 		
-        scanf("%d,%d", &row, &column);
+		//Inputan dari Pemain dengan Timer
+		if ((ch = Timer(10)) != 0){
+        	row = ch[0]-48;
+			column = ch[1]-48;
+			remain_time = ch[2];
+        }
+	    else{
+	        printf("Waktu Habis");
+			player++;
+			continue;
+	    }
+		
         mark = (player == 1) ? 'X' : 'O';
                 
         if((Symbol[row-1][column-1] != 'X') && (Symbol[row-1][column-1] != 'O')){
         	if((row > 0) && (row < 6) && (column > 0) && (column < 6)){
         		Symbol[row-1][column-1] = mark;
+				if(player == 1){
+        			Player1.InitialScore--;
+        			Player1.ActionCount++;
+        			Player1.AverageTime += remain_time;
+				}else{
+					Player2.InitialScore--;
+					Player2.ActionCount++;
+        			Player2.AverageTime += remain_time;
+				}
 			}
 		}
 		else {
@@ -282,17 +314,32 @@ void PlayGame5PVP(){
 	Grid5();
 	
 	if(Done == 1){
-		printf("Pemenangnya adalah Player %d\n", --player);
+		printf("Player %d Menang\n", --player);
+		if(player == 1){
+			Player1.Highscore = Score(Player1.InitialScore, Player1.ActionCount, Player1.AverageTime);
+			printf("Highscore : %d", Player1.Highscore);
+			
+			SaveHighscore(Player1.Highscore, player, Player1.ActionCount, Player1.AverageTime);
+		}else{
+			Player2.Highscore = Score(Player2.InitialScore, Player2.ActionCount, Player2.AverageTime);
+			printf("Highscore : %d", Player2.Highscore);
+			
+			SaveHighscore(Player1.Highscore, player, Player1.ActionCount, Player1.AverageTime);
+		}
 	}
 	else{
 		printf("Game Seri\n");
 	}
+	
+	getch();
+	exit(0);
 }
 
 //Modul untuk Program Player VS Player 7x7 saat dimulai
 void PlayGame7PVP(){
 	int column, row, player = 1, Done = -1;
 	char mark;
+	int *ch, remain_time;
 	
 	do{
 		system("cls");
@@ -305,12 +352,39 @@ void PlayGame7PVP(){
 			printf(" Player %d [%s], Masukkan Angka (Baris, Kolom) tanpa Tanda Kurung :  ", player, Player2.Name);
 		}
 		
-        scanf("%d,%d", &row, &column);
+        if(player == 1){
+        	printf(" Giliran Player %d [%s] \n", player, Player1.Name);
+		}else{
+			printf(" Giliran Player %d [%s] \n", player, Player2.Name);
+		}
+		printf(" NOTE : Masukan hanya angka tanpa koma dan tanda kurung\n");
+		
+		//Inputan dari Pemain dengan Timer
+		if ((ch = Timer(10)) != 0){
+        	row = ch[0]-48;
+			column = ch[1]-48;
+			remain_time = ch[2];
+        }
+	    else{
+	        printf("Waktu Habis");
+			player++;
+			continue;
+	    }
+		
         mark = (player == 1) ? 'X' : 'O';
                 
         if((Symbol[row-1][column-1] != 'X') && (Symbol[row-1][column-1] != 'O')){
         	if((row > 0) && (row < 8) && (column > 0) && (column < 8)){
         		Symbol[row-1][column-1] = mark;
+				if(player == 1){
+        			Player1.InitialScore--;
+        			Player1.ActionCount++;
+        			Player1.AverageTime += remain_time;
+				}else{
+					Player2.InitialScore--;
+					Player2.ActionCount++;
+        			Player2.AverageTime += remain_time;
+				}
 			}
 		}
 		else {
@@ -327,11 +401,25 @@ void PlayGame7PVP(){
 	Grid7();
 	
 	if(Done == 1){
-		printf("Pemenangnya adalah Player %d\n", --player);
+		printf("Player %d Menang\n", --player);
+		if(player == 1){
+			Player1.Highscore = Score(Player1.InitialScore, Player1.ActionCount, Player1.AverageTime);
+			printf("Highscore : %d", Player1.Highscore);
+			
+			SaveHighscore(Player1.Highscore, player, Player1.ActionCount, Player1.AverageTime);
+		}else{
+			Player2.Highscore = Score(Player2.InitialScore, Player2.ActionCount, Player2.AverageTime);
+			printf("Highscore : %d", Player2.Highscore);
+			
+			SaveHighscore(Player1.Highscore, player, Player1.ActionCount, Player1.AverageTime);
+		}
 	}
 	else{
 		printf("Game Seri\n");
 	}
+	
+	getch();
+	exit(0);
 }
 
 /*=============================================================
@@ -415,6 +503,30 @@ void Grid7(){
 		printf("    |_____|_____|_____|_____|_____|_____|_____|\n");
 	}
 	printf("\n");
+}
+
+//Modul untuk Timer
+int *Timer(unsigned int sec){
+	int count = 0;
+	int set[3];
+	
+	while(sec > 0){
+		printf("\r [Sisa Waktu : %2d] Masukkan Angka (Baris, Kolom): ", sec);
+		if(kbhit()){
+			if(count==0){
+				set[0] = getch();
+				printf("%c,", set[0]);
+			}else{
+				set[1] = getch();
+				printf("%c,%c", set[0], set[1]);
+				set[2] = sec;
+				return set;
+			}
+			count++;
+		}
+		sec--;
+		Sleep(1000);
+	}
 }
 
 /*========================================================
@@ -598,6 +710,93 @@ int CheckWin7(){
 	else{
 		return -1;
 	}
+}
+
+//Modul untuk Menghitung Skor Akhir Pemenang
+int Score(int InitialScore, int ActionCount, float AverageTime){
+	int Result = InitialScore * ((int)AverageTime/ActionCount) * 4;
+	
+	return Result;
+}
+
+//Modul untuk Menyimpan Data Pemain yang Menang
+void SaveHighscore(int Highscore, int player, int ActionCount, float AverageTime){
+	FILE * FHighscore = fopen("highscore.txt", "a");
+	
+	if(GridOption == 1){
+		if(PlayerOption == 1){
+		
+		}else{
+			if(player == 1){
+				fprintf(FHighscore, "\n%s\t\t\t%d\t\t%d\t\t%d\t\t%.2f\t\t\t3x3", Player1.Name, player, Player1.Highscore, Player1.ActionCount, Player1.AverageTime/(float)Player1.ActionCount);
+			}else{
+				fprintf(FHighscore, "\n%s\t\t\t%d\t\t%d\t\t%d\t\t%.2f\t\t\t3x3", Player2.Name, player, Player2.Highscore, Player2.ActionCount, Player2.AverageTime/(float)Player2.ActionCount);
+			}
+		}
+	}else if(GridOption == 2){
+		if(PlayerOption == 1){
+		
+		}else{
+			if(player == 1){
+				fprintf(FHighscore, "\n%s\t\t\t%d\t\t%d\t\t%d\t\t%.2f\t\t\t5x5", Player1.Name, player, Player1.Highscore, Player1.ActionCount, Player1.AverageTime/(float)Player1.ActionCount);
+			}else{
+				fprintf(FHighscore, "\n%s\t\t\t%d\t\t%d\t\t%d\t\t%.2f\t\t\t5x5", Player2.Name, player, Player2.Highscore, Player2.ActionCount, Player2.AverageTime/(float)Player2.ActionCount);
+			}
+		}
+	}else{
+		if(PlayerOption == 1){
+		
+		}else{
+			if(player == 1){
+				fprintf(FHighscore, "\n%s\t\t\t%d\t\t%d\t\t%d\t\t%.2f\t\t\t7x7", Player1.Name, player, Player1.Highscore, Player1.ActionCount, Player1.AverageTime/(float)Player1.ActionCount);
+			}else{
+				fprintf(FHighscore, "\n%s\t\t\t%d\t\t%d\t\t%d\t\t%.2f\t\t\t7x7", Player2.Name, player, Player2.Highscore, Player2.ActionCount, Player2.AverageTime/(float)Player2.ActionCount);
+			}
+		}
+	}
+	
+    fclose(FHighscore);
+}
+
+void DisplayHighscore(){
+	system("cls");
+	int HighscoreListOption;
+	char teks[150];
+	
+	FILE * FHighscore;
+	
+	printf("NAMA\t\t\tPLAYER\t\tHIGHSCORE\tAKSI\t\tRATA-RATA WAKTU");
+	
+	if ((FHighscore = fopen("highscore.txt","r")) == NULL){
+        printf("Error: File tidak ada!");
+    }else{
+    	while(!feof(FHighscore)){
+			fgets(teks, 150, FHighscore);
+			printf(teks);
+		}
+	}
+	
+    fclose(FHighscore);
+    
+    printf("\n\n");
+	puts("[1] Kembali");
+	puts("[2] Keluar");
+	do{
+		printf("Masukkan pilihan : ");
+		scanf("%d", &HighscoreListOption);
+		
+		switch(HighscoreListOption){
+			case 1:
+				system("cls");
+				main();
+				break;
+			case 2:
+				exit(0);
+				break;
+			default:
+				puts("Maaf, masukan Anda tidak valid. Silahkan coba lagi");
+		}
+	}while((HighscoreOption < 1) || (HighscoreOption > 2));
 }
 
 //Modul untuk Tampilan Tentang
