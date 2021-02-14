@@ -1,2 +1,18 @@
-=== TIC TAC TOE ===
-Tic Tac Toe adalah Permainan 
+=============================================================================================================
+						   TENTANG
+=============================================================================================================
+	Tic-Tac-Toe adalah sebuah permainan yang di mana dua pemain menggambar "O" atau "X" secara
+bergiliran dalam satu kotak persegi dengan standar dimensi kotak 3x3. Permainan ini disebut juga Noughts &
+Crosses atau Xs & Os. Tic-Tac-Toe dapat dimainkan di komputer atau di berbagai media.
+	Tujuan permainan Tic-Tac-Toe adalah menjadi pemain pertama yang mendapatkan simbol tiga kali berturut
+-turut pada kisi 3x3. Dalam permainan kisi 3x3, pemain yang memainkan simbol "X" selalu mendapat giliran
+pertama. Pemain secara bergantian menempatkan "X" dan "O" di papan sampai salah satu pemain memiliki
+tiga simbol secara berderet baik horizontal, vertikal ataupun diagonal.
+	Aplikasi ini dibuat oleh Algi Fari Ramdhani dan Mochammad Lutfi Faturachman, Kelompok 7. Berikut
+profil pembuat aplikasi Tic-Tac-Toe ini.
+1. Nama		: Algi Fari Ramdhani
+   NIM  	: 201524034
+   Kelas	: 1B-D4 TI
+2. Nama		: Mochammad Lutfi Faturachman
+   NIM  	: 201524052
+   Kelas	: 1B-D4 TI
