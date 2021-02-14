@@ -1,1 +1,30 @@
-=== BANTUAN ===
+===========================================================================================================
+						BANTUAN
+===========================================================================================================
+A. Aturan Bermain
+   1. Setiap pemain hanya diberi waktu 10 detik untuk memasukkan angka
+      Jika waktu habis saat giliran berlangsung, akan dilanjutkan oleh pemain berikutnya
+   2. Setiap pemain tidak bisa mengisi bidak yang sudah terisi
+   3. Player pertama bermain sebagai "O" dan player kedua bermain sebagai "O"
+B. Poin
+   1. Poin Awal
+      a. Setiap pemain diberi skor awal tergantung kisi yang dipilih :
+         1.) 9 untuk 3X3
+         2.) 25 untuk 5x5
+	 3.) 49 untuk 7X7
+      b. Setiap pemain memasukkan angka, poin akan berkurang 1
+   2. Poin Akhir
+      a. Menang
+         Pemain yang menang akan mendapatkan poin tambahan sebesar 4 kali lipat
+      b. Seri
+         Kedua pemain tidak akan mendapatkan poin tambahan
+      c. Kalah
+         Pemain yang kalah akan mendapatkan poin nol
+C. Cara Bermain
+   1. Pilih "Mulai" pada Menu Utama.
+   2. Pilih mode permainan yang akan dimainkan, 1 player atau 2 player.
+      2.1. Pilih level permainan jika Anda memilih 1 player.
+   3. Pilih kisi atau papan permainan.
+   4. Masukkan nama pemain [nama pemain tidak boleh lebih dari 20 karakter].
+   5. Permainan dimulai dan papan akan muncul sesuai kisi yang dipilih. Pemain boleh mengisi bidak
+   6. Ketika permainan berakhir, akan muncul kondisi akhir. Menang atau Seri dengan Skor Akhir yang muncul
