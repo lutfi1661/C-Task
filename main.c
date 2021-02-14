@@ -8,10 +8,15 @@ void DisplayHighscore();
 void DisplayAbout();
 void DisplayHelp();
 void PlayerVSComputer();
+void PlayerMove3();
+void ComputerMove3Mudah();
+void ComputerMove3Normal();
 void PlayerVSPlayer();
 void Grid3();
 void Grid5();
 void Grid7();
+void PlayGame3PVCMudah();
+void PlayGame3PVCNormal();
 void PlayGame3PVP();
 void PlayGame5PVP();
 void PlayGame7PVP();
@@ -21,6 +26,7 @@ int CheckWin7();
 int Score(int InitialScore, int ActionCount, float AverageTime);
 void SaveHighscore(int Highscore, int player, int ActionCount, float AverageTime);
 int *Timer(unsigned int sec);
+void
 
 //Variabel Global
 int PlayerOption, LevelOption, GridOption;
@@ -180,6 +186,13 @@ void PlayerVSComputer(){
 	DisplayNamePlayerInput();
 	
 	//Algoritma Permainan Dimulai
+	if (LevelOption == 1 && GridOption == 1){
+		PlayGame3PVCMudah();
+	}
+	if (LevelOption == 2 && GridOption == 1){
+		PlayGame3PVCNormal();
+	}
+	
 }
 
 //Modul untuk Program Player VS Player
@@ -208,6 +221,308 @@ void PlayerVSPlayer(){
 /*======================================================
 		MODUL-MODUL UNTUK SAAT PERMAINAN DIMULAI		
 ========================================================*/
+
+
+//Modul untuk Input player 3x3
+void PlayerMove3(){
+	int row, column, i=1;
+	do{
+	system("cls");
+	Grid3();
+	printf(" Player 1 [%s], Masukkan Angka (Baris, Kolom) tanpa Tanda Kurung :  ", Player1.Name);
+	scanf("%d,%d", &row, &column);
+	
+		if ((Symbol[row-1][column-1] != 'X') && (Symbol[row-1][column-1] != 'O')){
+        	if((row > 0) && (row < 4) && (column > 0) && (column < 4)){
+        		Symbol[row-1][column-1] = 'X';
+        		PlayerRow=row;
+        		PlayerColumn=column;
+        		i=0;
+        		break;
+			}
+		}
+		else {
+			printf("Masukan tidak valid, Silahkan coba lagi.");
+            getch();
+		}
+	} while (i==1);
+}
+
+
+//Modul untuk program Player vs Computer 3x3 Mudah
+void PlayGame3PVCMudah(){
+	int done=-1, winner=0;
+	strcpy(Player2.Name, "Komputer");
+	do{
+		Grid3(); 
+		PlayerMove3(); 
+		done = CheckWin3(); 	/* see if winner */ 
+		if (done==1) {
+			winner=1;
+			break;
+		} 				  	/* winner!*/ 
+		ComputerMove3Mudah(); 
+		done = CheckWin3(); 	/* see if winner */ 
+		if (done==1) {
+			winner=2;
+			break;
+		}
+	} while(done==-1);
+	
+	Grid3();
+	if (winner==1){
+		printf("Pemenangnya adalah Player 1 [%s]\n", Player1.Name);
+	}
+	else if (winner==2){
+		printf("Pemenangnya adalah Komputer\n");
+	}
+	else if (done == 0){
+		printf("Game seri\n");
+	}
+	getch();
+}
+
+//Modul untuk Computer 3x3 Mudah
+void ComputerMove3Mudah(){
+	int i, j;
+	for (i=0; i<3; i++){
+		for (j=0; j<3; j++){
+			if (Symbol[i][j]==' '){
+				Symbol[i][j]='O';
+				i=4;
+				j=4;
+				break;
+			}
+		}
+	}
+}
+
+
+//Modul untuk Program Player VS Compuuter 3x3 Normal
+void PlayGame3PVCNormal(){
+	int done=-1, winner=0;
+	strcpy(Player2.Name, "Komputer");
+	do{
+		Grid3(); 
+		PlayerMove3(); 
+		done = CheckWin3(); 	/* see if winner */ 
+		if (done==1) {
+			winner=1;
+			break;
+		}
+		Grid3(); 				  	/* winner!*/ 
+		ComputerMove3Normal(); 
+		done = CheckWin3(); 	/* see if winner */ 
+		if (done==1) {
+			winner=2;
+			break;
+		}
+	} while(done==-1);
+	
+	Grid3();
+	if (winner==1){
+		printf("Pemenangnya adalah Player 1 [%s]\n", Player1.Name);
+	}
+	else if (winner==2){
+		printf("Pemenangnya adalah Komputer\n");
+	}
+	else if (done == 0){
+		printf("Game seri\n");
+	}
+	getch();
+}
+
+
+//Modul untuk Computer 3x3 Normal
+void PlayGame3PVCNormal(){
+	int done=-1, winner=0;
+	strcpy(Player2.Name, "Komputer");
+	do{
+		Grid3(); 
+		PlayerMove3(); 
+		done = CheckWin3(); 	/* see if winner */ 
+		if (done==1) {
+			winner=1;
+			break;
+		}
+		Grid3(); 				  	/* winner!*/ 
+		ComputerMove3Normal(); 
+		done = CheckWin3(); 	/* see if winner */ 
+		if (done==1) {
+			winner=2;
+			break;
+		}
+	} while(done==-1);
+	
+	Grid3();
+	if (winner==1){
+		printf("Pemenangnya adalah Player 1 [%s]\n", Player1.Name);
+	}
+	else if (winner==2){
+		printf("Pemenangnya adalah Komputer\n");
+	}
+	else if (done == 0){
+		printf("Game seri\n");
+	}
+	getch();
+}
+
+void ComputerMove3Normal(){
+	int i, j, box=1;
+	for (i=PlayerRow-2; i<PlayerRow+1; i++){
+		for (j=PlayerColumn-2; j<PlayerColumn+1; j++){
+			if (Symbol[i][j]=='X' && (i!=PlayerRow-1) && (j!=PlayerColumn-1)){
+				i=100;
+				j=100;
+				box--;
+			}
+			box++;
+		}
+	}
+	switch(box){
+		case 1 :
+			if (Symbol[PlayerRow][PlayerColumn]==' '){
+				if ((PlayerRow>=0 && PlayerRow <=3) && (PlayerColumn>=0 && PlayerColumn<=3)){
+					Symbol[PlayerRow][PlayerColumn]='O';
+					break;
+				}
+			}
+			if (Symbol[PlayerRow-3][PlayerColumn-3]==' '){
+				if ((PlayerRow-3>=0 && PlayerRow-3 <=3) && (PlayerColumn-3>=0 && PlayerColumn-3<=3)){
+					Symbol[PlayerRow-3][PlayerColumn-3]='O';
+					break;
+				}
+			}
+			else {
+				ComputerMove3Mudah();
+				break;	
+			}
+		case 2 :
+			if (Symbol[PlayerRow][PlayerColumn-1]==' '){
+				if ((PlayerRow>=0 && PlayerRow<=3) && (PlayerColumn-1 >=0 && PlayerColumn-1 <=3)){
+					Symbol[PlayerRow][PlayerColumn-1]='O';
+					break;
+				}
+			}
+			if (Symbol[PlayerRow-3][PlayerColumn-1]==' '){
+				if ((PlayerRow-3>=0 && PlayerRow-3<=3) && (PlayerColumn-1 >=0 && PlayerColumn-2 <=3)){
+					Symbol[PlayerRow-3][PlayerColumn-1]='O';
+					break;
+				}
+			}
+			else {
+				ComputerMove3Mudah();
+				break;	
+			}
+		case 3 :
+			if (Symbol[PlayerRow][PlayerColumn-2]==' '){
+				if ((PlayerRow >= 0 && PlayerRow <= 3) && (PlayerColumn-2 >= 0 && PlayerColumn-2 <= 3)){
+					Symbol[PlayerRow][PlayerColumn-2]='O';
+					break;
+				}
+			}
+			if (Symbol[PlayerRow-3][PlayerColumn+1]==' '){
+				if ((PlayerRow-3 >= 0 && PlayerRow-3 <= 2) && (PlayerColumn+1 >= 0 && PlayerColumn+1 <=2)){
+					Symbol[PlayerRow-3][PlayerColumn+1]='O';
+					break;
+				}
+			}
+			else {
+				ComputerMove3Mudah();
+				break;	
+			}
+		case 4 :
+			if (Symbol[PlayerRow-1][PlayerColumn]==' '){
+				if ((PlayerRow-1 >= 0 && PlayerRow-1 <=2) && (PlayerColumn >= 0 && PlayerColumn <=2)){
+					Symbol[PlayerRow-1][PlayerColumn]='O';
+					break;
+				}
+			}
+			if (Symbol[PlayerRow-1][PlayerColumn-3]==' '){
+				if ((PlayerRow-1 >= 0 && PlayerRow-1 <=2) && (PlayerColumn-3 >= 0 && PlayerColumn-3 <=2)){
+					Symbol[PlayerRow-1][PlayerColumn-3]='O';
+					break;
+				}
+			}
+			else {
+				ComputerMove3Mudah();
+				break;	
+			}
+		case 6 :
+			if (Symbol[PlayerRow-1][PlayerColumn-2]==' '){
+				if ((PlayerRow-1 >= 0 && PlayerRow-1 <= 2) && (PlayerColumn-2 >= 0 && PlayerColumn-2 <= 2)){
+					Symbol[PlayerRow-1][PlayerColumn-2]='O';
+					break;
+				}
+			}
+			if (Symbol[PlayerRow-1][PlayerColumn+1]==' '){
+				if ((PlayerRow-1 >= 0 && PlayerRow-1 <= 2) && (PlayerColumn+1 >= 0 && PlayerColumn+1 <= 2)){
+					Symbol[PlayerRow-1][PlayerColumn+1]='O';
+					break;
+				}
+			}
+			else {
+				ComputerMove3Mudah();
+				break;	
+			}
+		case 7 :
+			if (Symbol[PlayerRow-2][PlayerColumn]==' '){
+				if ((PlayerRow-2 >= 0 && PlayerRow-2 <=2) && (PlayerColumn >= 0 && PlayerColumn <=2)){
+					Symbol[PlayerRow-2][PlayerColumn]='O';
+					break;
+				}
+			}
+			if (Symbol[PlayerRow+1][PlayerColumn-3]==' '){
+				if ((PlayerRow+1 >= 0 && PlayerRow+1 <= 2) && (PlayerColumn-3 >= 0 && PlayerColumn-3 <=2)){
+					Symbol[PlayerRow+1][PlayerColumn-3]='O';
+					break;
+				}
+			}
+			else {
+				ComputerMove3Mudah();
+				break;	
+			}
+		case 8 :
+			if (Symbol[PlayerRow-2][PlayerColumn-1]==' '){
+				if ((PlayerRow-2 >= 0 && PlayerRow-2 <= 2) && (PlayerColumn-1 >= 0 && PlayerColumn-1 <= 2)){
+					Symbol[PlayerRow-2][PlayerColumn-1]='O';
+					break;
+				}
+			}
+			if (Symbol[PlayerRow+1][PlayerColumn-1]==' '){
+				if ((PlayerRow+1 >= 0 && PlayerRow+1 <= 2) && (PlayerColumn-1 >= 0 && PlayerColumn-1 <= 2)){
+					Symbol[PlayerRow+1][PlayerColumn-1]='O';
+					break;
+				}
+			}
+			else {
+				ComputerMove3Mudah();
+				break;	
+			}
+		case 9 :
+			if (Symbol[PlayerRow-2][PlayerColumn-2]==' '){
+				if ((PlayerRow-2>= 0 && PlayerRow-2 <= 2) && (PlayerColumn-2 >= 0 && PlayerColumn-2 <= 2)){
+					Symbol[PlayerRow-2][PlayerColumn-2]='O';
+					break;
+				}
+			}
+			if (Symbol[PlayerRow+1][PlayerColumn+1]==' '){
+				if ((PlayerRow+1>= 0 && PlayerRow+1 <= 2) && (PlayerColumn+1 >= 0 && PlayerColumn+1 <= 2)){
+					Symbol[PlayerRow+1][PlayerColumn+1]='O';
+					break;
+				}
+			}
+			else {
+				ComputerMove3Mudah();
+				break;	
+			}
+		case 10 :
+			ComputerMove3Mudah();
+			break;
+	}
+}
+
+
 //Modul untuk Program Player VS Player 3x3 saat dimulai
 void PlayGame3PVP(){
 	int column, row, player=1, Done=-1;
