@@ -186,8 +186,6 @@ void DisplayNamePlayerInput(){
 void PlayerVSComputer(){
 	system("cls");
 	
-	int i, Player = 1, Choice;
-	
 	//Memanggil Modul Pilihan Level
 	DisplayLevelMenu();
 	
