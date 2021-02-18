@@ -152,11 +152,24 @@ void DisplayGridMenu(){
 		scanf("%d", &GridOption);
 		
 		if(GridOption == 1){
-			Player1.InitialScore = Player2.InitialScore = 9;
+			if(PlayerOption == 1){
+				Player1.InitialScore = 9;
+			}else{
+				Player1.InitialScore = Player2.InitialScore = 9;
+			}
+			
 		}else if(GridOption == 2){
-			Player1.InitialScore = Player2.InitialScore = 25;
+			if(PlayerOption == 1){
+				Player1.InitialScore = 25;
+			}else{
+				Player1.InitialScore = Player2.InitialScore = 25;
+			}
 		}else if(GridOption == 3){
-			Player1.InitialScore = Player2.InitialScore = 49;
+			if(PlayerOption == 1){
+				Player1.InitialScore = 49;
+			}else{
+				Player1.InitialScore = Player2.InitialScore = 49;
+			}
 		}else{
 			system("cls");
 			puts("Maaf, masukan Anda tidak valid. Silahkan coba lagi");
@@ -256,12 +269,12 @@ void PlayGamePVC(){
 	}
 	else if(winner==2){
 		printf("Pemenangnya adalah Komputer, Anda kalah");
-		Player1.Highscore = Score(1, Player1.InitialScore, Player1.ActionCount, Player1.AverageTime);
+		Player1.Highscore = Score(2, Player1.InitialScore, Player1.ActionCount, Player1.AverageTime);
 		SaveHighscore(Player1.Highscore, winner, Player1.ActionCount, Player1.AverageTime);
 	}
 	else if(done == 0){
 		printf("Game seri\n");
-		Player1.Highscore = Score(1, Player1.InitialScore, Player1.ActionCount, Player1.AverageTime);
+		Player1.Highscore = Score(0, Player1.InitialScore, Player1.ActionCount, Player1.AverageTime);
 		SaveHighscore(Player1.Highscore, done, Player1.ActionCount, Player1.AverageTime);
 	}
 	getch();
@@ -970,10 +983,12 @@ int CheckWin(){
 //Modul untuk Menghitung Skor Akhir Pemenang
 int Score(int Done, int InitialScore, int ActionCount, float AverageTime){
 	int Result;
-	if(Done == 1){
+	if(Done == 0){
+		Result = InitialScore * ((int)AverageTime/ActionCount) * 1;
+	}else if(Done == 1){
 		Result = InitialScore * ((int)AverageTime/ActionCount) * 4;
 	}else{
-		Result = InitialScore * ((int)AverageTime/ActionCount) * 1;
+		Result = 0;
 	}
 	return Result;
 }
