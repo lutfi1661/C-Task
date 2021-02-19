@@ -8,11 +8,17 @@ Crosses atau Xs & Os. Tic-Tac-Toe dapat dimainkan di komputer atau di berbagai m
 -turut pada kisi 3x3. Dalam permainan kisi 3x3, pemain yang memainkan simbol "X" selalu mendapat giliran
 pertama. Pemain secara bergantian menempatkan "X" dan "O" di papan sampai salah satu pemain memiliki
 tiga simbol secara berderet baik horizontal, vertikal ataupun diagonal.
-	Aplikasi ini dibuat oleh Algi Fari Ramdhani dan Mochammad Lutfi Faturachman, Kelompok 7. Berikut
-profil pembuat aplikasi Tic-Tac-Toe ini.
+	Aplikasi ini dibuat oleh Algi Fari Ramdhani dan Mochammad Lutfi Faturachman, Kelompok 7 untuk
+memenuhi syarat kelulusan mata kuliah Dasar-Dasar Pemrograman. Berikut profil pembuat aplikasi Tic Tac Toe
+ini.
 1. Nama		: Algi Fari Ramdhani
    NIM  	: 201524034
    Kelas	: 1B-D4 TI
 2. Nama		: Mochammad Lutfi Faturachman
    NIM  	: 201524052
    Kelas	: 1B-D4 TI
+	Kami ucapkan terima kasih kepada Bapak/Ibu Dosen sekaligus Pembimbing dalam perancangan aplikasi yang
+kami buat ini.
+1. Ani Rahmani, S.Si., M.T.
+2. Asri Maspupah, S.ST., M.T.
+3. Lukhmannul Hakim, S.Kom., M.T.   
