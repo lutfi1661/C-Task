@@ -210,6 +210,7 @@ void PlayerVSComputer(){
 	
 	//Algoritma Permainan Dimulai
 	PlayGamePVC();
+	
 }
 
 //Modul untuk Algoritma/Linimasa dari Program Player VS Player
@@ -224,6 +225,7 @@ void PlayerVSPlayer(){
 	
 	//Algoritma Permainan Dimulai
 	PlayGamePVP();
+	
 }
 
 //Modul untuk Program Player VS Komputer saat Permainan Dimulai
@@ -233,11 +235,11 @@ void PlayGamePVC(){
 		GridBoard(); 
 		//Giliran Player Utama
 		PlayerMove();
-		done = CheckWin(); 	/* see if winner */ 
+		done = CheckWin();
 		if (done==1) {
 			winner=1;
 			break;
-		} 				  	/* winner!*/ 
+		} 
 		
 		//Giliran Player Bot
 		switch(LevelOption){
@@ -251,7 +253,7 @@ void PlayGamePVC(){
 				ComputerMoveHard();
 				break;
 		}
-		done = CheckWin(); 	/* see if winner */ 
+		done = CheckWin(); 
 		if (done==1) {
 			winner=2;
 			break;
@@ -267,12 +269,12 @@ void PlayGamePVC(){
 			
 		SaveHighscore(Player1.Highscore, winner, Player1.ActionCount, Player1.AverageTime);
 	}
-	else if(winner==2){
+	else if(winner==2){ //Jika Komputer Menang
 		printf("Pemenangnya adalah Komputer, Anda kalah");
 		Player1.Highscore = Score(2, Player1.InitialScore, Player1.ActionCount, Player1.AverageTime);
 		SaveHighscore(Player1.Highscore, winner, Player1.ActionCount, Player1.AverageTime);
 	}
-	else if(done == 0){
+	else if(done == 0){ //Jika Kedua Pemain seri
 		printf("Game seri\n");
 		Player1.Highscore = Score(0, Player1.InitialScore, Player1.ActionCount, Player1.AverageTime);
 		SaveHighscore(Player1.Highscore, done, Player1.ActionCount, Player1.AverageTime);
@@ -335,7 +337,7 @@ void ComputerMoveEasy(){
 	if(GridOption == 1){ //Kisi 3x3 
 		for (i=0; i<3; i++){
 			for (j=0; j<3; j++){
-			if (Symbol[i][j] == ' '){
+				if (Symbol[i][j] == ' '){
 					Symbol[i][j] = 'O';
 					i = 3;
 					j = 3;
@@ -1174,7 +1176,7 @@ void DisplayAbout(){
 	FILE * FTentang;
 	
 	if ((FTentang = fopen("tentang.txt","r")) == NULL){
-        printf("Error: File tidak ada!");
+        printf("Error: File tidak ditemukan!");
     }else{
     	while(!feof(FTentang)){
 			fgets(teks, 150, FTentang);
@@ -1216,7 +1218,7 @@ void DisplayHelp(){
 	FILE * FBantuan;
 	
 	if ((FBantuan = fopen("bantuan.txt","r")) == NULL){
-        printf("Error: File tidak ada!");
+        printf("Error: File tidak ditemukan!");
     }else{
     	while(!feof(FBantuan)){
 			fgets(teks, 150, FBantuan);
