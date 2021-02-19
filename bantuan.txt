@@ -21,10 +21,14 @@ B. Poin
       c. Kalah
          Pemain yang kalah akan mendapatkan poin nol
 C. Cara Bermain
-   1. Pilih "Mulai" pada Menu Utama.
-   2. Pilih mode permainan yang akan dimainkan, 1 player atau 2 player.
-      2.1. Pilih level permainan jika Anda memilih 1 player.
-   3. Pilih kisi atau papan permainan.
-   4. Masukkan nama pemain [nama pemain tidak boleh lebih dari 20 karakter].
-   5. Permainan dimulai dan papan akan muncul sesuai kisi yang dipilih. Pemain boleh mengisi bidak
-   6. Ketika permainan berakhir, akan muncul kondisi akhir. Menang atau Seri dengan Skor Akhir yang muncul
+   1. Pilih “Mulai” pada Menu Utama.
+   2. Pilih mode permainan yang akan dimainkan, tersedia 1 player dan 2 player.
+   3. Jika memilih 1 player, maka akan muncul opsi tingkat kesulitan bermain. Jika memilih 2 player, maka akan lanjut ke poin d.
+   4. Pilih kisi/ukuran papan permainan.
+   5. Masukkan nama pemain yang tidak boleh lebih dari 20 karakter.
+   6. Papan permainan muncul dan permainan dimulai.
+   7. Player 1 pertama kali mendapatkan giliran pertama dan dilanjutkan oleh Player 2.
+   8. Permainan akan berakhir dengan syarat sebagai berikut,
+      - Jika salah satu pemain mendapat deret simbol berturut-turut terlebih dahulu (horizontal, vertikal, dan diagonal), ia memenangkan permainan. Sebaliknya, pemain lawan kalah; atau
+      - Jika seluruh papan sudah terisi dan tidak ada yang mendapat deret simbol, kedua pemain dinyatakan seri.
+   9. Skor akhir akan muncul setelah permainan berakhir tergantung kondisi akhir dari permainan.
